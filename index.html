@@ -1,0 +1,2744 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DriveTable™ — La table de volant ultime</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #080808;
+    --black-soft: #0f0f0f;
+    --black-card: #131313;
+    --black-border: #1e1e1e;
+    --sand: #c9a96e;
+    --sand-light: #d4b483;
+    --sand-pale: #e8d5b0;
+    --sand-dim: rgba(201,169,110,0.12);
+    --sand-glow: rgba(201,169,110,0.25);
+    --white: #f5f0e8;
+    --white-dim: rgba(245,240,232,0.6);
+    --white-muted: rgba(245,240,232,0.35);
+    --white-faint: rgba(245,240,232,0.1);
+    --radius: 16px;
+    --radius-sm: 10px;
+    --radius-lg: 24px;
+  }
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; font-size: 16px; }
+
+body {
+background: var(–black);
+color: var(–white);
+font-family: ‘DM Sans’, sans-serif;
+font-weight: 300;
+overflow-x: hidden;
+-webkit-font-smoothing: antialiased;
+}
+
+/* ─── ANNOUNCEMENT BAR ─── */
+.announcement {
+background: var(–sand);
+color: #000;
+text-align: center;
+padding: 10px 20px;
+font-size: 12px;
+font-weight: 500;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+position: relative;
+z-index: 100;
+}
+.announcement span { opacity: 0.7; margin: 0 12px; }
+
+/* ─── HEADER ─── */
+header {
+position: sticky;
+top: 0;
+z-index: 90;
+background: rgba(8,8,8,0.85);
+backdrop-filter: blur(24px) saturate(1.4);
+border-bottom: 1px solid var(–black-border);
+padding: 0 40px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+height: 64px;
+transition: background 0.3s;
+}
+
+.logo {
+font-family: ‘Cormorant Garamond’, serif;
+font-weight: 300;
+font-size: 22px;
+letter-spacing: 0.08em;
+color: var(–white);
+text-decoration: none;
+display: flex;
+flex-direction: column;
+line-height: 1;
+}
+.logo sup {
+font-size: 9px;
+letter-spacing: 0.2em;
+color: var(–sand);
+font-family: ‘DM Mono’, monospace;
+font-weight: 300;
+text-transform: uppercase;
+vertical-align: super;
+}
+.logo-sub {
+font-size: 7px;
+letter-spacing: 0.25em;
+color: var(–white-muted);
+font-family: ‘DM Mono’, monospace;
+font-weight: 300;
+text-transform: uppercase;
+margin-top: 3px;
+}
+
+nav { display: flex; gap: 32px; align-items: center; }
+nav a {
+color: var(–white-dim);
+text-decoration: none;
+font-size: 13px;
+letter-spacing: 0.06em;
+font-weight: 400;
+transition: color 0.2s;
+position: relative;
+}
+nav a::after {
+content: ‘’;
+position: absolute;
+bottom: -3px; left: 0;
+width: 0; height: 1px;
+background: var(–sand);
+transition: width 0.3s;
+}
+nav a:hover { color: var(–white); }
+nav a:hover::after { width: 100%; }
+
+.header-actions { display: flex; gap: 20px; align-items: center; }
+.icon-btn {
+background: none; border: none; cursor: pointer;
+color: var(–white-dim);
+width: 36px; height: 36px;
+display: flex; align-items: center; justify-content: center;
+border-radius: 50%;
+transition: all 0.2s;
+position: relative;
+}
+.icon-btn:hover { color: var(–white); background: var(–white-faint); }
+.cart-count {
+position: absolute; top: 4px; right: 4px;
+width: 14px; height: 14px;
+background: var(–sand);
+border-radius: 50%;
+font-size: 9px;
+font-weight: 500;
+color: #000;
+display: flex; align-items: center; justify-content: center;
+}
+
+/* ─── HERO ─── */
+.hero {
+min-height: 100vh;
+display: grid;
+grid-template-columns: 1fr 1fr;
+position: relative;
+overflow: hidden;
+}
+
+.hero-visual {
+position: relative;
+background: #0a0a0a;
+overflow: hidden;
+}
+
+.hero-bg {
+position: absolute; inset: 0;
+background:
+radial-gradient(ellipse 80% 80% at 60% 40%, rgba(201,169,110,0.06) 0%, transparent 70%),
+radial-gradient(ellipse 60% 60% at 20% 80%, rgba(201,169,110,0.03) 0%, transparent 60%),
+linear-gradient(135deg, #0a0a0a 0%, #111 100%);
+}
+
+.hero-product-frame {
+position: absolute; inset: 0;
+display: flex; align-items: center; justify-content: center;
+padding: 60px;
+}
+
+/* Simulated car interior with CSS */
+.car-scene {
+width: 100%;
+height: 100%;
+position: relative;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.steering-wheel-container {
+position: relative;
+width: 340px;
+height: 340px;
+animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+0%, 100% { transform: translateY(0px) rotate(-2deg); }
+50% { transform: translateY(-12px) rotate(2deg); }
+}
+
+.steering-wheel {
+width: 340px;
+height: 340px;
+border: 22px solid #1a1a1a;
+border-radius: 50%;
+position: relative;
+background: radial-gradient(circle at 50% 50%, #222 0%, #111 100%);
+box-shadow:
+0 0 0 2px #2a2a2a,
+0 30px 80px rgba(0,0,0,0.8),
+inset 0 2px 4px rgba(255,255,255,0.05);
+}
+
+.wheel-spoke {
+position: absolute;
+background: #1a1a1a;
+border-radius: 4px;
+}
+.wheel-spoke-v {
+width: 18px; height: 100px;
+top: 50%; left: 50%;
+transform: translate(-50%, -100%);
+}
+.wheel-spoke-hl {
+width: 80px; height: 14px;
+top: 50%; left: 22%;
+transform: translateY(-50%);
+}
+.wheel-spoke-hr {
+width: 80px; height: 14px;
+top: 50%; right: 22%;
+transform: translateY(-50%);
+}
+
+.wheel-hub {
+position: absolute;
+width: 60px; height: 60px;
+background: #222;
+border-radius: 50%;
+top: 50%; left: 50%;
+transform: translate(-50%, -50%);
+border: 2px solid #333;
+display: flex; align-items: center; justify-content: center;
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 14px;
+color: var(–sand);
+letter-spacing: 0.05em;
+}
+
+/* The DriveTable product on wheel */
+.drivetable-on-wheel {
+position: absolute;
+width: 320px;
+height: 180px;
+background: linear-gradient(145deg, #1a1a1a 0%, #111 50%, #0d0d0d 100%);
+border-radius: 14px 14px 10px 10px;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -12%);
+box-shadow:
+0 20px 60px rgba(0,0,0,0.9),
+inset 0 1px 0 rgba(255,255,255,0.06),
+0 0 0 1px rgba(255,255,255,0.04);
+z-index: 2;
+}
+
+.drivetable-surface {
+position: absolute; inset: 8px;
+background: repeating-linear-gradient(
+0deg,
+transparent 0px,
+transparent 3px,
+rgba(255,255,255,0.01) 3px,
+rgba(255,255,255,0.01) 4px
+);
+border-radius: 8px;
+}
+
+.drivetable-cupholder {
+position: absolute;
+width: 44px; height: 44px;
+background: #0a0a0a;
+border-radius: 50%;
+bottom: 16px; right: 20px;
+border: 2px solid #222;
+box-shadow: inset 0 4px 10px rgba(0,0,0,0.8);
+}
+
+.drivetable-food {
+position: absolute;
+top: 12px; left: 16px;
+display: flex; gap: 8px; align-items: flex-end;
+}
+
+.food-item {
+background: var(–sand);
+border-radius: 4px;
+opacity: 0.7;
+}
+
+.hook-left, .hook-right {
+position: absolute;
+width: 30px; height: 24px;
+background: #1a1a1a;
+border: 2px solid #2a2a2a;
+top: -12px;
+border-radius: 6px 6px 0 0;
+}
+.hook-left { left: 30px; }
+.hook-right { right: 30px; }
+
+/* Ambient light rays */
+.ambient-ray {
+position: absolute;
+width: 2px;
+background: linear-gradient(to bottom, transparent, rgba(201,169,110,0.15), transparent);
+animation: ray-pulse 4s ease-in-out infinite;
+transform-origin: top center;
+}
+
+@keyframes ray-pulse {
+0%, 100% { opacity: 0.3; }
+50% { opacity: 0.8; }
+}
+
+/* ─── HERO CONTENT ─── */
+.hero-content {
+display: flex;
+flex-direction: column;
+justify-content: center;
+padding: 80px 60px 80px 70px;
+background: var(–black);
+position: relative;
+}
+
+.hero-content::before {
+content: ‘’;
+position: absolute;
+left: 0; top: 0; bottom: 0;
+width: 1px;
+background: linear-gradient(to bottom, transparent, var(–black-border) 30%, var(–black-border) 70%, transparent);
+}
+
+.hero-tag {
+display: inline-flex;
+align-items: center;
+gap: 8px;
+font-family: ‘DM Mono’, monospace;
+font-size: 10px;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: var(–sand);
+margin-bottom: 28px;
+animation: fadeUp 0.8s ease both;
+}
+
+.hero-tag::before {
+content: ‘’;
+width: 20px; height: 1px;
+background: var(–sand);
+}
+
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(20px); }
+to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-title {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: clamp(42px, 5vw, 72px);
+font-weight: 300;
+line-height: 1.05;
+letter-spacing: -0.02em;
+color: var(–white);
+margin-bottom: 20px;
+animation: fadeUp 0.8s ease 0.1s both;
+}
+
+.hero-title em {
+font-style: italic;
+color: var(–sand-light);
+}
+
+.hero-sub {
+font-size: 15px;
+color: var(–white-muted);
+line-height: 1.7;
+max-width: 360px;
+margin-bottom: 36px;
+font-weight: 300;
+animation: fadeUp 0.8s ease 0.2s both;
+}
+
+.hero-stars {
+display: flex;
+align-items: center;
+gap: 10px;
+margin-bottom: 36px;
+animation: fadeUp 0.8s ease 0.25s both;
+}
+
+.stars {
+display: flex; gap: 3px;
+color: var(–sand);
+font-size: 14px;
+}
+
+.stars-text {
+font-size: 12px;
+color: var(–white-muted);
+font-family: ‘DM Mono’, monospace;
+letter-spacing: 0.05em;
+}
+
+.price-block {
+display: flex;
+align-items: baseline;
+gap: 12px;
+margin-bottom: 36px;
+animation: fadeUp 0.8s ease 0.3s both;
+}
+
+.price-current {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 48px;
+font-weight: 300;
+color: var(–white);
+letter-spacing: -0.02em;
+}
+
+.price-old {
+font-size: 20px;
+color: var(–white-muted);
+text-decoration: line-through;
+font-weight: 300;
+}
+
+.price-badge {
+background: var(–sand-dim);
+border: 1px solid rgba(201,169,110,0.3);
+color: var(–sand);
+padding: 4px 10px;
+border-radius: 20px;
+font-size: 11px;
+font-weight: 500;
+font-family: ‘DM Mono’, monospace;
+letter-spacing: 0.1em;
+}
+
+/* Color selector */
+.color-select {
+margin-bottom: 28px;
+animation: fadeUp 0.8s ease 0.35s both;
+}
+
+.color-label {
+font-size: 10px;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: var(–white-muted);
+font-family: ‘DM Mono’, monospace;
+margin-bottom: 12px;
+}
+
+.color-options {
+display: flex; gap: 10px;
+}
+
+.color-opt {
+padding: 8px 18px;
+border-radius: var(–radius-sm);
+border: 1px solid var(–black-border);
+background: var(–black-card);
+color: var(–white-dim);
+font-size: 12px;
+cursor: pointer;
+transition: all 0.2s;
+letter-spacing: 0.05em;
+}
+.color-opt.active {
+border-color: var(–sand);
+color: var(–sand);
+background: var(–sand-dim);
+}
+.color-opt:hover { border-color: rgba(201,169,110,0.4); }
+
+/* CTAs */
+.cta-group {
+display: flex; flex-direction: column; gap: 12px;
+animation: fadeUp 0.8s ease 0.4s both;
+margin-bottom: 32px;
+}
+
+.btn-primary {
+background: var(–sand);
+color: #000;
+border: none;
+padding: 18px 32px;
+border-radius: var(–radius-sm);
+font-size: 13px;
+font-weight: 500;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+transition: all 0.25s;
+font-family: ‘DM Sans’, sans-serif;
+}
+
+.btn-primary:hover {
+background: var(–sand-light);
+transform: translateY(-1px);
+box-shadow: 0 12px 40px rgba(201,169,110,0.3);
+}
+
+.btn-secondary {
+background: transparent;
+color: var(–white-dim);
+border: 1px solid var(–black-border);
+padding: 17px 32px;
+border-radius: var(–radius-sm);
+font-size: 13px;
+letter-spacing: 0.12em;
+text-transform: uppercase;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+transition: all 0.25s;
+font-family: ‘DM Sans’, sans-serif;
+}
+.btn-secondary:hover {
+border-color: var(–sand);
+color: var(–sand);
+background: var(–sand-dim);
+}
+
+.trust-badges {
+display: flex;
+gap: 20px;
+animation: fadeUp 0.8s ease 0.5s both;
+flex-wrap: wrap;
+}
+
+.trust-item {
+display: flex;
+align-items: center;
+gap: 6px;
+font-size: 11px;
+color: var(–white-muted);
+letter-spacing: 0.04em;
+}
+
+.trust-item svg { color: var(–sand); }
+
+/* ─── MARQUEE ─── */
+.marquee-section {
+border-top: 1px solid var(–black-border);
+border-bottom: 1px solid var(–black-border);
+overflow: hidden;
+padding: 16px 0;
+background: var(–black-soft);
+}
+
+.marquee-track {
+display: flex;
+width: max-content;
+animation: marquee 25s linear infinite;
+}
+
+@keyframes marquee {
+from { transform: translateX(0); }
+to { transform: translateX(-50%); }
+}
+
+.marquee-item {
+display: flex;
+align-items: center;
+gap: 16px;
+padding: 0 40px;
+font-size: 11px;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: var(–white-muted);
+white-space: nowrap;
+font-family: ‘DM Mono’, monospace;
+}
+
+.marquee-dot {
+width: 4px; height: 4px;
+border-radius: 50%;
+background: var(–sand);
+}
+
+/* ─── SECTION BASE ─── */
+section { padding: 120px 80px; }
+
+.section-tag {
+font-family: ‘DM Mono’, monospace;
+font-size: 10px;
+letter-spacing: 0.25em;
+text-transform: uppercase;
+color: var(–sand);
+margin-bottom: 20px;
+display: flex;
+align-items: center;
+gap: 12px;
+}
+
+.section-tag::before {
+content: ‘’;
+width: 24px; height: 1px;
+background: var(–sand);
+opacity: 0.6;
+}
+
+.section-title {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: clamp(36px, 4vw, 60px);
+font-weight: 300;
+line-height: 1.1;
+letter-spacing: -0.02em;
+color: var(–white);
+}
+
+.section-title em { font-style: italic; color: var(–sand-light); }
+
+.section-desc {
+font-size: 15px;
+color: var(–white-muted);
+line-height: 1.8;
+max-width: 520px;
+font-weight: 300;
+margin-top: 16px;
+}
+
+/* ─── PROBLEM / SOLUTION ─── */
+.problem-section {
+background: var(–black-soft);
+position: relative;
+overflow: hidden;
+}
+
+.problem-section::before {
+content: ‘’;
+position: absolute;
+top: -200px; right: -200px;
+width: 600px; height: 600px;
+background: radial-gradient(circle, rgba(201,169,110,0.04), transparent 70%);
+pointer-events: none;
+}
+
+.problem-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 80px;
+margin-top: 70px;
+align-items: center;
+}
+
+.problems-list { display: flex; flex-direction: column; gap: 24px; }
+
+.problem-item {
+display: flex;
+gap: 20px;
+padding: 28px;
+border-radius: var(–radius);
+border: 1px solid var(–black-border);
+background: var(–black-card);
+transition: all 0.3s;
+cursor: default;
+}
+.problem-item:hover {
+border-color: rgba(201,169,110,0.2);
+background: rgba(19,19,19,0.8);
+transform: translateX(4px);
+}
+
+.problem-icon {
+width: 44px; height: 44px;
+border-radius: 12px;
+background: rgba(255,60,60,0.08);
+border: 1px solid rgba(255,60,60,0.15);
+display: flex; align-items: center; justify-content: center;
+font-size: 20px;
+flex-shrink: 0;
+}
+
+.problem-text h4 {
+font-size: 14px;
+font-weight: 500;
+color: var(–white);
+margin-bottom: 6px;
+letter-spacing: 0.02em;
+}
+
+.problem-text p {
+font-size: 13px;
+color: var(–white-muted);
+line-height: 1.6;
+}
+
+.solution-panel {
+background: linear-gradient(135deg, #131313 0%, #0f0f0f 100%);
+border-radius: var(–radius-lg);
+border: 1px solid var(–black-border);
+padding: 48px;
+position: relative;
+overflow: hidden;
+}
+
+.solution-panel::before {
+content: ‘’;
+position: absolute; top: 0; left: 0; right: 0;
+height: 1px;
+background: linear-gradient(to right, transparent, var(–sand), transparent);
+opacity: 0.4;
+}
+
+.solution-label {
+font-family: ‘DM Mono’, monospace;
+font-size: 10px;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: var(–sand);
+margin-bottom: 16px;
+}
+
+.solution-title {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 36px;
+font-weight: 300;
+line-height: 1.15;
+color: var(–white);
+margin-bottom: 20px;
+letter-spacing: -0.01em;
+}
+
+.solution-features {
+display: flex;
+flex-direction: column;
+gap: 14px;
+margin-top: 28px;
+}
+
+.sol-feature {
+display: flex;
+align-items: center;
+gap: 12px;
+font-size: 13px;
+color: var(–white-dim);
+}
+
+.sol-check {
+width: 20px; height: 20px;
+border-radius: 50%;
+background: var(–sand-dim);
+border: 1px solid rgba(201,169,110,0.3);
+display: flex; align-items: center; justify-content: center;
+flex-shrink: 0;
+color: var(–sand);
+font-size: 11px;
+}
+
+/* ─── FEATURES ─── */
+.features-section { background: var(–black); }
+
+.features-header {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 40px;
+align-items: end;
+margin-bottom: 70px;
+}
+
+.features-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 2px;
+background: var(–black-border);
+border-radius: var(–radius-lg);
+overflow: hidden;
+border: 1px solid var(–black-border);
+}
+
+.feature-card {
+background: var(–black-card);
+padding: 40px 32px;
+display: flex;
+flex-direction: column;
+gap: 16px;
+transition: all 0.3s;
+cursor: default;
+position: relative;
+overflow: hidden;
+}
+
+.feature-card::before {
+content: ‘’;
+position: absolute; inset: 0;
+background: linear-gradient(135deg, var(–sand-dim), transparent);
+opacity: 0;
+transition: opacity 0.3s;
+}
+.feature-card:hover::before { opacity: 1; }
+.feature-card:hover { background: #141414; }
+
+.feature-num {
+font-family: ‘DM Mono’, monospace;
+font-size: 10px;
+color: var(–white-muted);
+letter-spacing: 0.15em;
+}
+
+.feature-icon {
+width: 48px; height: 48px;
+border-radius: 14px;
+background: var(–black-soft);
+border: 1px solid var(–black-border);
+display: flex; align-items: center; justify-content: center;
+font-size: 22px;
+transition: all 0.3s;
+}
+.feature-card:hover .feature-icon {
+background: var(–sand-dim);
+border-color: rgba(201,169,110,0.3);
+}
+
+.feature-name {
+font-size: 15px;
+font-weight: 500;
+color: var(–white);
+letter-spacing: 0.01em;
+}
+
+.feature-desc {
+font-size: 13px;
+color: var(–white-muted);
+line-height: 1.7;
+}
+
+/* ─── USES / LIFESTYLE ─── */
+.uses-section { background: var(–black-soft); }
+
+.uses-grid {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+grid-template-rows: auto auto;
+gap: 16px;
+margin-top: 60px;
+}
+
+.use-card {
+border-radius: var(–radius);
+overflow: hidden;
+position: relative;
+cursor: pointer;
+border: 1px solid var(–black-border);
+aspect-ratio: 3/4;
+background: var(–black-card);
+transition: transform 0.3s;
+display: flex; align-items: flex-end;
+}
+.use-card:nth-child(1) { grid-column: span 2; aspect-ratio: unset; min-height: 320px; }
+.use-card:hover { transform: scale(0.99); }
+
+.use-card-bg {
+position: absolute; inset: 0;
+display: flex; align-items: center; justify-content: center;
+font-size: 60px;
+transition: transform 0.5s;
+}
+.use-card:hover .use-card-bg { transform: scale(1.05); }
+
+.use-card-gradient {
+position: absolute; inset: 0;
+background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+}
+
+.use-card-content {
+position: relative;
+z-index: 2;
+padding: 24px;
+width: 100%;
+}
+
+.use-tag {
+display: inline-block;
+background: var(–sand-dim);
+border: 1px solid rgba(201,169,110,0.25);
+color: var(–sand);
+font-family: ‘DM Mono’, monospace;
+font-size: 9px;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+padding: 4px 10px;
+border-radius: 20px;
+margin-bottom: 10px;
+}
+
+.use-name {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 22px;
+font-weight: 400;
+color: var(–white);
+line-height: 1.2;
+}
+
+.use-desc {
+font-size: 12px;
+color: var(–white-muted);
+margin-top: 6px;
+line-height: 1.5;
+}
+
+/* Background swatches for lifestyle cards */
+.use-card:nth-child(1) { background: linear-gradient(135deg, #1a1208, #0d0d0d); }
+.use-card:nth-child(2) { background: linear-gradient(135deg, #0a0f1a, #0d0d0d); }
+.use-card:nth-child(3) { background: linear-gradient(135deg, #0a1a0f, #0d0d0d); }
+.use-card:nth-child(4) { background: linear-gradient(135deg, #1a0a1a, #0d0d0d); }
+.use-card:nth-child(5) { background: linear-gradient(135deg, #1a1a0a, #0d0d0d); }
+.use-card:nth-child(6) { background: linear-gradient(135deg, #0a1a1a, #0d0d0d); }
+.use-card:nth-child(7) { background: linear-gradient(135deg, #1a0a0a, #0d0d0d); }
+
+/* ─── VIDEO SECTION ─── */
+.video-section {
+background: #050505;
+padding: 120px 0;
+position: relative;
+overflow: hidden;
+}
+
+.video-section::before {
+content: ‘’;
+position: absolute; inset: 0;
+background: radial-gradient(ellipse 70% 50% at 50% 50%, rgba(201,169,110,0.05), transparent);
+}
+
+.video-inner {
+padding: 0 80px;
+text-align: center;
+}
+
+.video-frame {
+margin-top: 60px;
+border-radius: var(–radius-lg);
+overflow: hidden;
+border: 1px solid var(–black-border);
+position: relative;
+background: var(–black-card);
+aspect-ratio: 16/9;
+max-width: 900px;
+margin-left: auto;
+margin-right: auto;
+display: flex; align-items: center; justify-content: center;
+}
+
+.video-frame-bg {
+position: absolute; inset: 0;
+background: linear-gradient(135deg, #0f0f0f 0%, #1a1208 50%, #0f0f0f 100%);
+display: flex; align-items: center; justify-content: center;
+font-size: 100px;
+opacity: 0.3;
+}
+
+.play-btn {
+width: 80px; height: 80px;
+border-radius: 50%;
+background: var(–sand);
+border: none;
+cursor: pointer;
+display: flex; align-items: center; justify-content: center;
+transition: all 0.3s;
+position: relative;
+z-index: 2;
+}
+
+.play-btn::before {
+content: ‘’;
+position: absolute; inset: -8px;
+border-radius: 50%;
+border: 1px solid rgba(201,169,110,0.3);
+animation: pulse-ring 2s ease-in-out infinite;
+}
+
+@keyframes pulse-ring {
+0%, 100% { transform: scale(1); opacity: 1; }
+50% { transform: scale(1.15); opacity: 0; }
+}
+
+.play-btn:hover { background: var(–sand-light); transform: scale(1.05); }
+
+.play-triangle {
+width: 0; height: 0;
+border-top: 14px solid transparent;
+border-bottom: 14px solid transparent;
+border-left: 22px solid #000;
+margin-left: 4px;
+}
+
+.video-caption {
+margin-top: 24px;
+font-size: 13px;
+color: var(–white-muted);
+letter-spacing: 0.05em;
+font-family: ‘DM Mono’, monospace;
+}
+
+/* ─── REVIEWS ─── */
+.reviews-section { background: var(–black); }
+
+.reviews-header {
+display: flex;
+align-items: flex-end;
+justify-content: space-between;
+margin-bottom: 60px;
+flex-wrap: wrap;
+gap: 30px;
+}
+
+.reviews-rating {
+display: flex;
+align-items: center;
+gap: 20px;
+}
+
+.big-rating {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 72px;
+font-weight: 300;
+color: var(–white);
+line-height: 1;
+letter-spacing: -0.03em;
+}
+
+.rating-detail {
+display: flex;
+flex-direction: column;
+gap: 6px;
+}
+
+.reviews-grid {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 16px;
+}
+
+.review-card {
+background: var(–black-card);
+border: 1px solid var(–black-border);
+border-radius: var(–radius);
+padding: 28px;
+display: flex;
+flex-direction: column;
+gap: 16px;
+transition: all 0.3s;
+position: relative;
+overflow: hidden;
+}
+.review-card::before {
+content: ‘”’;
+position: absolute;
+top: -20px; right: 20px;
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 120px;
+color: var(–sand);
+opacity: 0.06;
+line-height: 1;
+}
+
+.review-card:hover {
+border-color: rgba(201,169,110,0.2);
+background: #141414;
+}
+
+.review-stars { display: flex; gap: 3px; color: var(–sand); font-size: 14px; }
+
+.review-text {
+font-size: 14px;
+color: var(–white-dim);
+line-height: 1.7;
+font-style: italic;
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 16px;
+}
+
+.reviewer {
+display: flex;
+align-items: center;
+gap: 12px;
+margin-top: auto;
+padding-top: 16px;
+border-top: 1px solid var(–black-border);
+}
+
+.reviewer-avatar {
+width: 38px; height: 38px;
+border-radius: 50%;
+background: linear-gradient(135deg, var(–sand-dim), var(–black-border));
+display: flex; align-items: center; justify-content: center;
+font-size: 16px;
+border: 1px solid var(–black-border);
+}
+
+.reviewer-name {
+font-size: 13px;
+font-weight: 500;
+color: var(–white);
+}
+
+.reviewer-role {
+font-size: 11px;
+color: var(–white-muted);
+font-family: ‘DM Mono’, monospace;
+letter-spacing: 0.05em;
+}
+
+.verified-badge {
+margin-left: auto;
+display: flex;
+align-items: center;
+gap: 4px;
+font-size: 10px;
+color: var(–sand);
+font-family: ‘DM Mono’, monospace;
+letter-spacing: 0.08em;
+}
+
+/* ─── COMPARISON ─── */
+.compare-section { background: var(–black-soft); }
+
+.compare-table {
+margin-top: 60px;
+border-radius: var(–radius-lg);
+overflow: hidden;
+border: 1px solid var(–black-border);
+}
+
+.compare-head {
+display: grid;
+grid-template-columns: 2fr 1.5fr 1.5fr;
+background: var(–black-card);
+border-bottom: 1px solid var(–black-border);
+}
+
+.compare-head-cell {
+padding: 24px 32px;
+font-size: 13px;
+font-weight: 500;
+letter-spacing: 0.05em;
+}
+
+.compare-head-cell.highlight {
+background: linear-gradient(135deg, rgba(201,169,110,0.1), rgba(201,169,110,0.05));
+color: var(–sand);
+border-left: 1px solid rgba(201,169,110,0.2);
+border-right: 1px solid rgba(201,169,110,0.2);
+text-align: center;
+display: flex;
+flex-direction: column;
+align-items: center;
+gap: 4px;
+}
+
+.compare-row {
+display: grid;
+grid-template-columns: 2fr 1.5fr 1.5fr;
+border-bottom: 1px solid var(–black-border);
+transition: background 0.2s;
+}
+.compare-row:last-child { border-bottom: none; }
+.compare-row:hover { background: rgba(255,255,255,0.01); }
+
+.compare-cell {
+padding: 20px 32px;
+font-size: 13px;
+color: var(–white-muted);
+display: flex;
+align-items: center;
+gap: 8px;
+}
+
+.compare-cell.feature-name-cell {
+color: var(–white-dim);
+font-weight: 400;
+}
+
+.compare-cell.highlight {
+background: rgba(201,169,110,0.04);
+border-left: 1px solid rgba(201,169,110,0.1);
+border-right: 1px solid rgba(201,169,110,0.1);
+justify-content: center;
+font-weight: 500;
+color: var(–sand);
+}
+
+.check-yes { color: var(–sand); font-size: 16px; }
+.check-no { color: rgba(255,255,255,0.2); font-size: 16px; }
+
+/* ─── SPECS ─── */
+.specs-section { background: var(–black); }
+
+.specs-layout {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 80px;
+margin-top: 70px;
+align-items: center;
+}
+
+.specs-visual {
+position: relative;
+aspect-ratio: 1;
+display: flex; align-items: center; justify-content: center;
+}
+
+/* CSS product render */
+.product-render {
+width: 280px; height: 160px;
+background: linear-gradient(145deg, #1e1e1e 0%, #141414 50%, #0f0f0f 100%);
+border-radius: 16px;
+position: relative;
+box-shadow:
+0 40px 100px rgba(0,0,0,0.8),
+inset 0 1px 0 rgba(255,255,255,0.06),
+0 0 0 1px rgba(255,255,255,0.03);
+animation: float 5s ease-in-out infinite;
+}
+
+.render-hook {
+position: absolute;
+width: 28px; height: 20px;
+background: linear-gradient(180deg, #222, #1a1a1a);
+border-radius: 6px 6px 0 0;
+top: -10px;
+border: 1px solid #2a2a2a;
+border-bottom: none;
+}
+.render-hook-l { left: 24px; }
+.render-hook-r { right: 24px; }
+
+.render-cup {
+position: absolute;
+width: 38px; height: 38px;
+background: #0a0a0a;
+border-radius: 50%;
+bottom: 14px; right: 18px;
+box-shadow: inset 0 3px 8px rgba(0,0,0,0.9), 0 0 0 2px #1a1a1a;
+}
+
+.render-surface {
+position: absolute; inset: 10px;
+border-radius: 8px;
+background: repeating-linear-gradient(
+45deg,
+transparent 0, transparent 10px,
+rgba(255,255,255,0.01) 10px, rgba(255,255,255,0.01) 11px
+);
+}
+
+.dimension-line {
+position: absolute;
+display: flex;
+align-items: center;
+gap: 8px;
+font-family: ‘DM Mono’, monospace;
+font-size: 10px;
+color: var(–sand);
+letter-spacing: 0.1em;
+}
+
+.dim-line-h {
+top: -36px; left: 50%;
+transform: translateX(-50%);
+flex-direction: column;
+}
+
+.dim-arrow {
+background: var(–sand);
+opacity: 0.4;
+}
+
+.specs-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 1px;
+background: var(–black-border);
+border-radius: var(–radius);
+overflow: hidden;
+border: 1px solid var(–black-border);
+}
+
+.spec-item {
+background: var(–black-card);
+padding: 24px;
+display: flex;
+flex-direction: column;
+gap: 6px;
+}
+
+.spec-label {
+font-family: ‘DM Mono’, monospace;
+font-size: 9px;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: var(–white-muted);
+}
+
+.spec-value {
+font-size: 20px;
+font-weight: 300;
+color: var(–white);
+font-family: ‘Cormorant Garamond’, serif;
+letter-spacing: -0.01em;
+}
+
+.spec-unit {
+font-size: 11px;
+color: var(–sand);
+font-family: ‘DM Mono’, monospace;
+margin-top: 2px;
+}
+
+/* ─── FAQ ─── */
+.faq-section { background: var(–black-soft); }
+
+.faq-layout {
+display: grid;
+grid-template-columns: 1fr 2fr;
+gap: 80px;
+margin-top: 70px;
+}
+
+.faq-list { display: flex; flex-direction: column; gap: 1px; }
+
+.faq-item {
+background: var(–black-card);
+border: 1px solid var(–black-border);
+border-radius: var(–radius-sm);
+overflow: hidden;
+margin-bottom: 8px;
+transition: border-color 0.2s;
+}
+.faq-item:hover { border-color: rgba(201,169,110,0.2); }
+
+.faq-question {
+width: 100%;
+background: none;
+border: none;
+padding: 20px 24px;
+display: flex;
+align-items: center;
+justify-content: space-between;
+gap: 16px;
+cursor: pointer;
+text-align: left;
+font-family: ‘DM Sans’, sans-serif;
+font-size: 14px;
+font-weight: 400;
+color: var(–white-dim);
+transition: color 0.2s;
+}
+.faq-question:hover { color: var(–white); }
+
+.faq-icon {
+width: 24px; height: 24px;
+border-radius: 50%;
+border: 1px solid var(–black-border);
+display: flex; align-items: center; justify-content: center;
+flex-shrink: 0;
+color: var(–sand);
+font-size: 14px;
+transition: all 0.2s;
+}
+
+.faq-item.open .faq-icon {
+background: var(–sand-dim);
+border-color: rgba(201,169,110,0.3);
+}
+
+.faq-answer {
+display: none;
+padding: 0 24px 20px;
+font-size: 13px;
+color: var(–white-muted);
+line-height: 1.7;
+}
+.faq-item.open .faq-answer { display: block; }
+.faq-item.open .faq-question { color: var(–white); }
+
+.faq-sidebar {
+position: sticky;
+top: 100px;
+height: fit-content;
+}
+
+.faq-cta-box {
+background: linear-gradient(135deg, var(–black-card), #111);
+border: 1px solid var(–black-border);
+border-radius: var(–radius-lg);
+padding: 40px;
+position: relative;
+overflow: hidden;
+}
+
+.faq-cta-box::before {
+content: ‘’;
+position: absolute; top: 0; left: 0; right: 0;
+height: 1px;
+background: linear-gradient(to right, transparent, var(–sand), transparent);
+opacity: 0.4;
+}
+
+/* ─── UPSELL ─── */
+.upsell-section { background: var(–black); }
+
+.upsell-grid {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 16px;
+margin-top: 60px;
+}
+
+.upsell-card {
+background: var(–black-card);
+border: 1px solid var(–black-border);
+border-radius: var(–radius);
+overflow: hidden;
+transition: all 0.3s;
+cursor: pointer;
+}
+.upsell-card:hover {
+border-color: rgba(201,169,110,0.25);
+transform: translateY(-4px);
+box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+}
+
+.upsell-img {
+height: 180px;
+background: var(–black-soft);
+display: flex; align-items: center; justify-content: center;
+font-size: 60px;
+border-bottom: 1px solid var(–black-border);
+position: relative;
+overflow: hidden;
+}
+
+.upsell-img::before {
+content: ‘’;
+position: absolute; inset: 0;
+background: radial-gradient(circle at 50% 50%, rgba(201,169,110,0.05), transparent);
+}
+
+.upsell-info { padding: 20px; }
+
+.upsell-name {
+font-size: 14px;
+font-weight: 500;
+color: var(–white);
+margin-bottom: 6px;
+letter-spacing: 0.01em;
+}
+
+.upsell-desc {
+font-size: 12px;
+color: var(–white-muted);
+line-height: 1.5;
+margin-bottom: 14px;
+}
+
+.upsell-price {
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+
+.upsell-price-num {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 22px;
+font-weight: 300;
+color: var(–white);
+}
+
+.upsell-add {
+width: 32px; height: 32px;
+border-radius: 50%;
+border: 1px solid var(–sand);
+background: var(–sand-dim);
+color: var(–sand);
+cursor: pointer;
+display: flex; align-items: center; justify-content: center;
+font-size: 18px;
+transition: all 0.2s;
+}
+.upsell-add:hover { background: var(–sand); color: #000; }
+
+/* ─── TRUST BAR ─── */
+.trust-bar {
+background: var(–black-card);
+border-top: 1px solid var(–black-border);
+border-bottom: 1px solid var(–black-border);
+padding: 40px 80px;
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 20px;
+}
+
+.trust-bar-item {
+display: flex;
+align-items: center;
+gap: 16px;
+padding: 0 20px;
+border-right: 1px solid var(–black-border);
+}
+.trust-bar-item:last-child { border-right: none; }
+
+.trust-bar-icon {
+width: 48px; height: 48px;
+border-radius: 14px;
+background: var(–sand-dim);
+border: 1px solid rgba(201,169,110,0.2);
+display: flex; align-items: center; justify-content: center;
+font-size: 22px;
+flex-shrink: 0;
+}
+
+.trust-bar-text h4 {
+font-size: 13px;
+font-weight: 500;
+color: var(–white);
+margin-bottom: 4px;
+letter-spacing: 0.02em;
+}
+
+.trust-bar-text p {
+font-size: 12px;
+color: var(–white-muted);
+}
+
+/* ─── FOOTER ─── */
+footer {
+background: var(–black-soft);
+padding: 80px 80px 40px;
+border-top: 1px solid var(–black-border);
+}
+
+.footer-top {
+display: grid;
+grid-template-columns: 1.5fr 1fr 1fr 1fr 1.5fr;
+gap: 60px;
+margin-bottom: 60px;
+padding-bottom: 60px;
+border-bottom: 1px solid var(–black-border);
+}
+
+.footer-brand .logo {
+font-size: 24px;
+margin-bottom: 16px;
+display: inline-flex;
+}
+
+.footer-tagline {
+font-size: 13px;
+color: var(–white-muted);
+line-height: 1.7;
+margin-bottom: 24px;
+max-width: 200px;
+}
+
+.social-links { display: flex; gap: 10px; }
+
+.social-link {
+width: 36px; height: 36px;
+border-radius: 10px;
+border: 1px solid var(–black-border);
+background: var(–black-card);
+display: flex; align-items: center; justify-content: center;
+font-size: 14px;
+color: var(–white-muted);
+text-decoration: none;
+transition: all 0.2s;
+}
+.social-link:hover {
+border-color: var(–sand);
+color: var(–sand);
+background: var(–sand-dim);
+}
+
+.footer-col h5 {
+font-size: 10px;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+color: var(–sand);
+margin-bottom: 20px;
+font-family: ‘DM Mono’, monospace;
+}
+
+.footer-links {
+display: flex;
+flex-direction: column;
+gap: 12px;
+}
+
+.footer-links a {
+font-size: 13px;
+color: var(–white-muted);
+text-decoration: none;
+transition: color 0.2s;
+letter-spacing: 0.03em;
+}
+.footer-links a:hover { color: var(–sand); }
+
+.newsletter-form {
+display: flex;
+gap: 0;
+margin-top: 8px;
+}
+
+.newsletter-input {
+flex: 1;
+background: var(–black-card);
+border: 1px solid var(–black-border);
+border-right: none;
+border-radius: var(–radius-sm) 0 0 var(–radius-sm);
+padding: 12px 16px;
+color: var(–white);
+font-size: 13px;
+font-family: ‘DM Sans’, sans-serif;
+outline: none;
+transition: border-color 0.2s;
+}
+.newsletter-input:focus { border-color: rgba(201,169,110,0.4); }
+.newsletter-input::placeholder { color: var(–white-muted); }
+
+.newsletter-btn {
+background: var(–sand);
+border: none;
+border-radius: 0 var(–radius-sm) var(–radius-sm) 0;
+padding: 12px 18px;
+cursor: pointer;
+color: #000;
+font-size: 16px;
+display: flex; align-items: center; justify-content: center;
+transition: background 0.2s;
+}
+.newsletter-btn:hover { background: var(–sand-light); }
+
+.newsletter-sub {
+margin-top: 10px;
+font-size: 11px;
+color: var(–white-muted);
+font-family: ‘DM Mono’, monospace;
+letter-spacing: 0.05em;
+}
+
+.footer-bottom {
+display: flex;
+align-items: center;
+justify-content: space-between;
+flex-wrap: wrap;
+gap: 16px;
+}
+
+.footer-copy {
+font-size: 12px;
+color: rgba(245,240,232,0.2);
+font-family: ‘DM Mono’, monospace;
+letter-spacing: 0.05em;
+}
+
+.footer-legal {
+display: flex;
+gap: 20px;
+}
+.footer-legal a {
+font-size: 12px;
+color: rgba(245,240,232,0.2);
+text-decoration: none;
+font-family: ‘DM Mono’, monospace;
+letter-spacing: 0.05em;
+transition: color 0.2s;
+}
+.footer-legal a:hover { color: var(–white-muted); }
+
+/* ─── STICKY ADD TO CART (MOBILE) ─── */
+.sticky-atc {
+display: none;
+position: fixed;
+bottom: 0; left: 0; right: 0;
+z-index: 80;
+background: rgba(8,8,8,0.95);
+backdrop-filter: blur(20px);
+border-top: 1px solid var(–black-border);
+padding: 16px 20px;
+flex-direction: column;
+gap: 10px;
+}
+
+.sticky-atc-info {
+display: flex;
+align-items: center;
+justify-content: space-between;
+}
+
+.sticky-atc-price {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 24px;
+font-weight: 300;
+color: var(–white);
+}
+
+/* ─── SCROLL ANIMATIONS ─── */
+.reveal {
+opacity: 0;
+transform: translateY(30px);
+transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+opacity: 1;
+transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 1024px) {
+section { padding: 80px 40px; }
+.hero { grid-template-columns: 1fr; min-height: auto; }
+.hero-visual { min-height: 50vh; display: none; }
+.hero-content { padding: 80px 40px; }
+nav { display: none; }
+.features-grid { grid-template-columns: repeat(2, 1fr); }
+.uses-grid { grid-template-columns: repeat(2, 1fr); }
+.uses-grid .use-card:nth-child(1) { grid-column: span 2; }
+.reviews-grid { grid-template-columns: 1fr 1fr; }
+.footer-top { grid-template-columns: 1fr 1fr; gap: 40px; }
+.trust-bar { grid-template-columns: repeat(2, 1fr); padding: 30px 40px; }
+.trust-bar-item { border-right: none; border-bottom: 1px solid var(–black-border); padding-bottom: 20px; }
+.trust-bar-item:nth-child(3), .trust-bar-item:nth-child(4) { border-bottom: none; }
+.specs-layout { grid-template-columns: 1fr; }
+.faq-layout { grid-template-columns: 1fr; }
+.upsell-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+section { padding: 60px 20px; }
+header { padding: 0 20px; }
+.hero-content { padding: 60px 20px; }
+.features-grid { grid-template-columns: 1fr; }
+.problem-grid { grid-template-columns: 1fr; gap: 40px; }
+.uses-grid { grid-template-columns: 1fr; }
+.uses-grid .use-card:nth-child(1) { grid-column: span 1; }
+.reviews-grid { grid-template-columns: 1fr; }
+.compare-section { overflow-x: auto; }
+.trust-bar { grid-template-columns: 1fr; padding: 24px 20px; }
+.sticky-atc { display: flex; }
+body { padding-bottom: 120px; }
+footer { padding: 60px 20px 40px; }
+.footer-top { grid-template-columns: 1fr; gap: 40px; }
+.footer-bottom { flex-direction: column; text-align: center; }
+.upsell-grid { grid-template-columns: 1fr; }
+.features-header { grid-template-columns: 1fr; }
+.video-inner { padding: 0 20px; }
+}
+</style>
+
+</head>
+<body>
+
+<!-- ANNOUNCEMENT -->
+
+<div class="announcement">
+  🚚 LIVRAISON OFFERTE AUJOURD'HUI SEULEMENT <span>•</span> CODE : DRIVE24 <span>•</span> SATISFAIT OU REMBOURSÉ 30 JOURS
+</div>
+
+<!-- HEADER -->
+
+<header>
+  <a href="#" class="logo">
+    DRIVE<em style="font-style:normal;color:var(--sand)">TABLE</em><sup>™</sup>
+    <span class="logo-sub">Le confort. Partout. Tout le temps.</span>
+  </a>
+
+  <nav>
+    <a href="#boutique">Boutique</a>
+    <a href="#features">Caractéristiques</a>
+    <a href="#avis">Avis clients</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <div class="header-actions">
+    <button class="icon-btn" aria-label="Rechercher">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </button>
+    <button class="icon-btn" aria-label="Compte">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    </button>
+    <button class="icon-btn" aria-label="Panier" style="position:relative">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="cart-count">2</span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+
+<section class="hero" style="padding:0" id="boutique">
+
+  <!-- VISUAL SIDE -->
+
+  <div class="hero-visual">
+    <div class="hero-bg"></div>
+    <div class="hero-product-frame">
+      <div class="car-scene">
+
+```
+    <!-- Ambient rays -->
+    <div class="ambient-ray" style="height:200px;top:0;left:30%;animation-delay:0s"></div>
+    <div class="ambient-ray" style="height:150px;top:10%;left:60%;animation-delay:1s"></div>
+
+    <div class="steering-wheel-container">
+      <!-- Steering Wheel -->
+      <div class="steering-wheel">
+        <div class="wheel-spoke wheel-spoke-v"></div>
+        <div class="wheel-spoke wheel-spoke-hl"></div>
+        <div class="wheel-spoke wheel-spoke-hr"></div>
+        <div class="wheel-hub">DT</div>
+      </div>
+
+      <!-- DriveTable on Wheel -->
+      <div class="drivetable-on-wheel">
+        <div class="hook-left"></div>
+        <div class="hook-right"></div>
+        <div class="drivetable-surface"></div>
+        <div class="drivetable-cupholder"></div>
+        <div class="drivetable-food">
+          <div class="food-item" style="width:32px;height:22px"></div>
+          <div class="food-item" style="width:20px;height:16px;background:#8B6914"></div>
+          <div class="food-item" style="width:14px;height:30px;background:#555;border-radius:3px 3px 0 0"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product label -->
+    <div style="position:absolute;bottom:40px;left:50%;transform:translateX(-50%);text-align:center">
+      <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:0.3em;text-transform:uppercase;color:var(--sand);margin-bottom:6px">DRIVETABLE™ PRO</div>
+      <div style="width:40px;height:1px;background:var(--sand);opacity:0.4;margin:0 auto"></div>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+
+  <!-- CONTENT SIDE -->
+
+  <div class="hero-content">
+    <div class="hero-tag">Best-seller · #1 en France</div>
+
+```
+<h1 class="hero-title">
+  La table de<br>volant <em>ultime.</em>
+</h1>
+
+<p class="hero-sub">Travaillez, mangez et voyagez confortablement. Partout. Installation en 2 secondes, compatible avec 95% des véhicules.</p>
+
+<div class="hero-stars">
+  <div class="stars">★★★★★</div>
+  <span class="stars-text">4,8/5 · 1 237 avis vérifiés</span>
+</div>
+
+<div class="price-block">
+  <span class="price-current">39,90€</span>
+  <span class="price-old">59,90€</span>
+  <span class="price-badge">−33%</span>
+</div>
+
+<div class="color-select">
+  <div class="color-label">Couleur</div>
+  <div class="color-options">
+    <div class="color-opt active">⬤ Noir Mat</div>
+    <div class="color-opt">⬤ Gris Anthracite</div>
+    <div class="color-opt">⬤ Beige Sable</div>
+  </div>
+</div>
+
+<div class="cta-group">
+  <button class="btn-primary">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+    Ajouter au panier
+  </button>
+  <button class="btn-secondary">
+    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="10,8 16,12 10,16 10,8"/></svg>
+    Voir la démonstration
+  </button>
+</div>
+
+<div class="trust-badges">
+  <div class="trust-item">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"/><polygon points="16,8 20,8 23,11 23,16 16,16 16,8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+    Livraison 3–5j offerte
+  </div>
+  <div class="trust-item">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    30j satisfait ou remboursé
+  </div>
+  <div class="trust-item">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+    Paiement sécurisé
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- MARQUEE -->
+
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item"><div class="marquee-dot"></div> Installation en 2 secondes</div>
+    <div class="marquee-item"><div class="marquee-dot"></div> Compatible 95% des véhicules</div>
+    <div class="marquee-item"><div class="marquee-dot"></div> Surface antidérapante premium</div>
+    <div class="marquee-item"><div class="marquee-dot"></div> Supporte jusqu'à 5 kg</div>
+    <div class="marquee-item"><div class="marquee-dot"></div> Design minimaliste</div>
+    <div class="marquee-item"><div class="marquee-dot"></div> ABS Premium ultra-résistant</div>
+    <div class="marquee-item"><div class="marquee-dot"></div> 1 237 avis 5 étoiles</div>
+    <div class="marquee-item"><div class="marquee-dot"></div> Livraison offerte</div>
+    <!-- Duplicate for seamless loop -->
+    <div class="marquee-item"><div class="marquee-dot"></div> Installation en 2 secondes</div>
+    <div class="marquee-item"><div class="marquee-dot"></div> Compatible 95% des véhicules</div>
+    <div class="marquee-item"><div class="marquee-dot"></div> Surface antidérapante premium</div>
+    <div class="marquee-item"><div class="marquee-dot"></div> Supporte jusqu'à 5 kg</div>
+    <div class="marquee-item"><div class="marquee-dot"></div> Design minimaliste</div>
+    <div class="marquee-item"><div class="marquee-dot"></div> ABS Premium ultra-résistant</div>
+    <div class="marquee-item"><div class="marquee-dot"></div> 1 237 avis 5 étoiles</div>
+    <div class="marquee-item"><div class="marquee-dot"></div> Livraison offerte</div>
+  </div>
+</div>
+
+<!-- PROBLEM / SOLUTION -->
+
+<section class="problem-section reveal">
+  <div class="section-tag">Le problème</div>
+  <h2 class="section-title">Votre voiture mérite<br>mieux que ça.</h2>
+
+  <div class="problem-grid">
+    <div class="problems-list">
+      <div class="problem-item reveal reveal-delay-1">
+        <div class="problem-icon">🍔</div>
+        <div class="problem-text">
+          <h4>Manger dans sa voiture, c'est le chaos.</h4>
+          <p>Repas sur les genoux, sauces qui tombent, fast-food renversé. Chaque pause déjeuner devient une corvée inconfortable.</p>
+        </div>
+      </div>
+      <div class="problem-item reveal reveal-delay-2">
+        <div class="problem-icon">💻</div>
+        <div class="problem-text">
+          <h4>Travailler sans espace, c'est impossible.</h4>
+          <p>Ordinateur posé sur les genoux, documents éparpillés. Impossible d'être productif entre deux réunions.</p>
+        </div>
+      </div>
+      <div class="problem-item reveal reveal-delay-3">
+        <div class="problem-icon">🗺️</div>
+        <div class="problem-text">
+          <h4>Les roadtrips deviennent vite désorganisés.</h4>
+          <p>Pas de surface plane, rien pour poser votre boisson, vos affaires partout. Le confort en route, ça n'existe pas encore.</p>
+        </div>
+      </div>
+      <div class="problem-item reveal reveal-delay-4">
+        <div class="problem-icon">⚡</div>
+        <div class="problem-text">
+          <h4>Pendant la recharge, vous ne faites rien.</h4>
+          <p>30 minutes à attendre sur une borne Tesla sans rien à faire. Un temps précieux perdu chaque semaine.</p>
+        </div>
+      </div>
+    </div>
+
+```
+<div class="solution-panel reveal reveal-delay-2">
+  <div class="solution-label">La solution</div>
+  <h3 class="solution-title">DriveTable™ transforme votre volant en espace de vie.</h3>
+  <p style="font-size:14px;color:var(--white-muted);line-height:1.7">Conçu pour répondre à un vrai besoin du quotidien : un accessoire simple, solide et élégant, qui s'adapte à votre mode de vie nomade.</p>
+  <div class="solution-features">
+    <div class="sol-feature"><div class="sol-check">✓</div> Compatible avec 99% des véhicules, y compris Tesla</div>
+    <div class="sol-feature"><div class="sol-check">✓</div> Matériau ABS Premium ultra-résistant aux chocs</div>
+    <div class="sol-feature"><div class="sol-check">✓</div> Installation et retrait en moins de 2 secondes</div>
+    <div class="sol-feature"><div class="sol-check">✓</div> Surface antidérapante, nettoyage à l'eau savonneuse</div>
+    <div class="sol-feature"><div class="sol-check">✓</div> Design compact et ergonomique, zéro encombrement</div>
+    <div class="sol-feature"><div class="sol-check">✓</div> Supporte jusqu'à 5 kg sans bouger d'un millimètre</div>
+  </div>
+  <button class="btn-primary" style="margin-top:32px;width:100%">
+    Découvrir DriveTable™ →
+  </button>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- FEATURES -->
+
+<section class="features-section" id="features">
+  <div class="features-header">
+    <div>
+      <div class="section-tag reveal">Caractéristiques</div>
+      <h2 class="section-title reveal">Pensé dans les<br>moindres <em>détails.</em></h2>
+    </div>
+    <p class="section-desc reveal reveal-delay-2">Chaque élément de DriveTable™ a été conçu avec une obsession pour la qualité, l'ergonomie et le design. Rien n'a été laissé au hasard.</p>
+  </div>
+
+  <div class="features-grid reveal">
+    <div class="feature-card">
+      <div class="feature-num">01</div>
+      <div class="feature-icon">⚡</div>
+      <div class="feature-name">Installation en 2s</div>
+      <div class="feature-desc">Glissez, enclenchez, c'est prêt. Pas d'outils, pas de vis, pas de montage complexe. Aussi simple que mettre des écouteurs.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">02</div>
+      <div class="feature-icon">🚗</div>
+      <div class="feature-name">Compatible 95%</div>
+      <div class="feature-desc">Volants de 34 à 44 cm de diamètre. Tesla, BMW, Renault, Mercedes, Peugeot, Audi — DriveTable™ s'adapte à votre voiture.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">03</div>
+      <div class="feature-icon">🏋️</div>
+      <div class="feature-name">Supporte 5 kg</div>
+      <div class="feature-desc">Structure renforcée testée sous charge. Votre MacBook Pro, votre repas, vos documents — tout tient parfaitement.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">04</div>
+      <div class="feature-icon">✨</div>
+      <div class="feature-name">Surface antidérapante</div>
+      <div class="feature-desc">Texture micro-structurée qui retient les objets en place, même en dénivelé. Votre café reste là où vous l'avez posé.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">05</div>
+      <div class="feature-icon">💧</div>
+      <div class="feature-name">Nettoyage facile</div>
+      <div class="feature-desc">Surface lisse et non-poreuse, lavable à l'eau savonneuse en 30 secondes. Matière premium résistante aux taches.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">06</div>
+      <div class="feature-icon">🎯</div>
+      <div class="feature-name">Compact & portable</div>
+      <div class="feature-desc">42 × 28 × 2,6 cm, 1,05 kg. Glisse parfaitement entre les sièges ou dans un sac. Toujours avec vous.</div>
+    </div>
+  </div>
+</section>
+
+<!-- USES / LIFESTYLE -->
+
+<section class="uses-section">
+  <div class="section-tag reveal">Utilisations</div>
+  <h2 class="section-title reveal">Pour chaque moment<br><em>de votre vie nomade.</em></h2>
+  <p class="section-desc reveal reveal-delay-1">Du livreur au vanlife, du commercial au papa en road trip — DriveTable™ s'adapte à tous ceux qui vivent sur la route.</p>
+
+  <div class="uses-grid">
+    <div class="use-card reveal">
+      <div class="use-card-bg">🍔</div>
+      <div class="use-card-gradient"></div>
+      <div class="use-card-content">
+        <div class="use-tag">Quotidien</div>
+        <div class="use-name">Pause déjeuner</div>
+        <div class="use-desc">Fini les repas sur les genoux. Profitez vraiment de votre pause.</div>
+      </div>
+    </div>
+    <div class="use-card reveal reveal-delay-1">
+      <div class="use-card-bg">💼</div>
+      <div class="use-card-gradient"></div>
+      <div class="use-card-content">
+        <div class="use-tag">Remote Work</div>
+        <div class="use-name">Bureau nomade</div>
+        <div class="use-desc">Travaillez entre deux réunions, gérez vos emails, signez vos docs.</div>
+      </div>
+    </div>
+    <div class="use-card reveal reveal-delay-2">
+      <div class="use-card-bg">🗺️</div>
+      <div class="use-card-gradient"></div>
+      <div class="use-card-content">
+        <div class="use-tag">Aventure</div>
+        <div class="use-name">Road trip</div>
+        <div class="use-desc">Organisation parfaite pour les longues distances en famille.</div>
+      </div>
+    </div>
+    <div class="use-card reveal reveal-delay-1">
+      <div class="use-card-bg">⚡</div>
+      <div class="use-card-gradient"></div>
+      <div class="use-card-content">
+        <div class="use-tag">Tesla Life</div>
+        <div class="use-name">Recharge Tesla</div>
+        <div class="use-desc">30 minutes de recharge = 30 minutes de productivité pure.</div>
+      </div>
+    </div>
+    <div class="use-card reveal reveal-delay-2">
+      <div class="use-card-bg">📦</div>
+      <div class="use-card-gradient"></div>
+      <div class="use-card-content">
+        <div class="use-tag">Pro</div>
+        <div class="use-name">Livraison</div>
+        <div class="use-desc">Uber Eats, DHL, Amazon — gérez vos bons de livraison facilement.</div>
+      </div>
+    </div>
+    <div class="use-card reveal reveal-delay-3">
+      <div class="use-card-bg">📚</div>
+      <div class="use-card-gradient"></div>
+      <div class="use-card-content">
+        <div class="use-tag">Étudiant</div>
+        <div class="use-name">Révisions</div>
+        <div class="use-desc">Étudiez dans votre voiture entre les cours, confortablement.</div>
+      </div>
+    </div>
+    <div class="use-card reveal reveal-delay-4">
+      <div class="use-card-bg">🏕️</div>
+      <div class="use-card-gradient"></div>
+      <div class="use-card-content">
+        <div class="use-tag">Vanlife</div>
+        <div class="use-name">Vie à bord</div>
+        <div class="use-desc">L'accessoire indispensable des nomades digitaux et voyageurs.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO -->
+
+<section class="video-section" style="padding:120px 0">
+  <div class="video-inner">
+    <div class="section-tag reveal" style="justify-content:center">Voir en action</div>
+    <h2 class="section-title reveal" style="text-align:center">60 secondes pour <em>tout comprendre.</em></h2>
+    <p class="section-desc reveal reveal-delay-1" style="text-align:center;margin:16px auto 0">Une démonstration qui vaut mieux qu'un long discours. Regardez DriveTable™ en situation réelle.</p>
+
+```
+<div class="video-frame reveal reveal-delay-2">
+  <div class="video-frame-bg">🎬</div>
+  <!-- Cinematic scanlines -->
+  <div style="position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);pointer-events:none;border-radius:var(--radius-lg)"></div>
+  <!-- Light leak -->
+  <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(to right,transparent,var(--sand),transparent);opacity:0.2"></div>
+
+  <button class="play-btn" onclick="this.style.display='none';document.getElementById('yt').style.display='block'">
+    <div class="play-triangle"></div>
+  </button>
+  <iframe id="yt" style="display:none;position:absolute;inset:0;width:100%;height:100%;border-radius:var(--radius-lg)" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" frameborder="0" allowfullscreen allow="autoplay"></iframe>
+</div>
+<div class="video-caption">Découvrez DriveTable™ en action · 60 secondes</div>
+```
+
+  </div>
+</section>
+
+<!-- REVIEWS -->
+
+<section class="reviews-section" id="avis">
+  <div class="reviews-header">
+    <div>
+      <div class="section-tag reveal">Avis clients</div>
+      <h2 class="section-title reveal">Ils nous font<br><em>confiance.</em></h2>
+    </div>
+    <div class="reviews-rating reveal">
+      <div class="big-rating">4,8</div>
+      <div class="rating-detail">
+        <div class="stars" style="font-size:18px">★★★★★</div>
+        <div style="font-size:12px;color:var(--white-muted);font-family:'DM Mono',monospace;letter-spacing:0.05em">Basé sur 1 237 avis</div>
+        <div style="font-size:11px;color:var(--sand);font-family:'DM Mono',monospace;letter-spacing:0.08em;margin-top:4px">✓ AVIS VÉRIFIÉS</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reviews-grid">
+
+```
+<div class="review-card reveal">
+  <div class="review-stars">★★★★★</div>
+  <p class="review-text">Franchement bluffé par la qualité. J'utilise DriveTable™ chaque jour entre mes livraisons Uber Eats. Super stable, même sur les routes bosselées. Je ne comprends pas pourquoi j'ai attendu aussi longtemps.</p>
+  <div class="reviewer">
+    <div class="reviewer-avatar">👨</div>
+    <div>
+      <div class="reviewer-name">Lucas D.</div>
+      <div class="reviewer-role">Livreur Uber Eats · Paris</div>
+    </div>
+    <div class="verified-badge">✓ Vérifié</div>
+  </div>
+</div>
+
+<div class="review-card reveal reveal-delay-1">
+  <div class="review-stars">★★★★★</div>
+  <p class="review-text">Parfait pour travailler sur mon ordinateur pendant mes pauses commerciales. La surface est vraiment antidérapante, mon MacBook Air ne bouge pas d'un millimètre. Design sobre et élégant, on dirait un accessoire Tesla.</p>
+  <div class="reviewer">
+    <div class="reviewer-avatar">👩</div>
+    <div>
+      <div class="reviewer-name">Chloé M.</div>
+      <div class="reviewer-role">Commerciale · Lyon</div>
+    </div>
+    <div class="verified-badge">✓ Vérifié</div>
+  </div>
+</div>
+
+<div class="review-card reveal reveal-delay-2">
+  <div class="review-stars">★★★★★</div>
+  <p class="review-text">Indispensable pour nos roadtrips en famille ! Les enfants adorent manger confortablement. Hyper stable même en conduite. La qualité des matériaux est vraiment premium, rien à voir avec ce qu'on trouve ailleurs.</p>
+  <div class="reviewer">
+    <div class="reviewer-avatar">👨‍👧</div>
+    <div>
+      <div class="reviewer-name">Thomas R.</div>
+      <div class="reviewer-role">Papa de 2 enfants · Bordeaux</div>
+    </div>
+    <div class="verified-badge">✓ Vérifié</div>
+  </div>
+</div>
+
+<div class="review-card reveal">
+  <div class="review-stars">★★★★★</div>
+  <p class="review-text">Pendant mes recharges Tesla Supercharger, je travaille maintenant sereinement. J'en ai parlé dans mon groupe Tesla France et tout le monde en commande maintenant. Un must-have absolu pour les propriétaires de Tesla.</p>
+  <div class="reviewer">
+    <div class="reviewer-avatar">🧑‍💻</div>
+    <div>
+      <div class="reviewer-name">Alexandre T.</div>
+      <div class="reviewer-role">Entrepreneur · Tesla Model 3</div>
+    </div>
+    <div class="verified-badge">✓ Vérifié</div>
+  </div>
+</div>
+
+<div class="review-card reveal reveal-delay-1">
+  <div class="review-stars">★★★★★</div>
+  <p class="review-text">Je suis étudiant et je révise souvent dans ma voiture entre les cours. DriveTable™ a complètement changé ma façon de travailler. Robuste, élégant, facile à ranger. Le rapport qualité-prix est imbattable.</p>
+  <div class="reviewer">
+    <div class="reviewer-avatar">👨‍🎓</div>
+    <div>
+      <div class="reviewer-name">Maxime B.</div>
+      <div class="reviewer-role">Étudiant médecine · Montpellier</div>
+    </div>
+    <div class="verified-badge">✓ Vérifié</div>
+  </div>
+</div>
+
+<div class="review-card reveal reveal-delay-2">
+  <div class="review-stars">★★★★★</div>
+  <p class="review-text">Vendeuse en déplacement, je passe mes journées en voiture. DriveTable™ est devenu mon bureau mobile. La livraison était ultra rapide et l'emballage était vraiment premium. Je recommande à tous mes collègues.</p>
+  <div class="reviewer">
+    <div class="reviewer-avatar">👩‍💼</div>
+    <div>
+      <div class="reviewer-name">Sarah K.</div>
+      <div class="reviewer-role">Représentante commerciale · Lille</div>
+    </div>
+    <div class="verified-badge">✓ Vérifié</div>
+  </div>
+</div>
+```
+
+  </div>
+
+  <div style="text-align:center;margin-top:40px">
+    <button class="btn-secondary" style="display:inline-flex;margin:0 auto">Voir tous les 1 237 avis →</button>
+  </div>
+</section>
+
+<!-- COMPARISON -->
+
+<section class="compare-section">
+  <div class="section-tag reveal">Comparaison</div>
+  <h2 class="section-title reveal">DriveTable™ vs<br>les <em>alternatives.</em></h2>
+  <p class="section-desc reveal reveal-delay-1">Il n'existe pas de vraie alternative premium. Voici pourquoi DriveTable™ est dans une catégorie à part.</p>
+
+  <div class="compare-table reveal reveal-delay-2">
+    <div class="compare-head">
+      <div class="compare-head-cell" style="color:var(--white-muted)">Critère</div>
+      <div class="compare-head-cell highlight">
+        DriveTable™
+        <span style="font-size:10px;font-family:'DM Mono',monospace;letter-spacing:0.1em;opacity:0.7">RECOMMANDÉ</span>
+      </div>
+      <div class="compare-head-cell" style="color:var(--white-muted)">Solutions classiques</div>
+    </div>
+
+```
+<div class="compare-row">
+  <div class="compare-cell feature-name-cell">Design premium & minimaliste</div>
+  <div class="compare-cell highlight"><span class="check-yes">✓</span> Oui, épuré Tesla</div>
+  <div class="compare-cell"><span class="check-no">✗</span> Plastique générique</div>
+</div>
+<div class="compare-row">
+  <div class="compare-cell feature-name-cell">Installation en 2 secondes</div>
+  <div class="compare-cell highlight"><span class="check-yes">✓</span> Clip universel</div>
+  <div class="compare-cell"><span class="check-no">✗</span> Sangles complexes</div>
+</div>
+<div class="compare-row">
+  <div class="compare-cell feature-name-cell">Stabilité & solidité</div>
+  <div class="compare-cell highlight"><span class="check-yes">✓</span> 5 kg garanti</div>
+  <div class="compare-cell"><span class="check-no">✗</span> Instable & fragile</div>
+</div>
+<div class="compare-row">
+  <div class="compare-cell feature-name-cell">Surface antidérapante</div>
+  <div class="compare-cell highlight"><span class="check-yes">✓</span> Micro-texture premium</div>
+  <div class="compare-cell"><span class="check-no">✗</span> Surface lisse basique</div>
+</div>
+<div class="compare-row">
+  <div class="compare-cell feature-name-cell">Compatibilité universelle</div>
+  <div class="compare-cell highlight"><span class="check-yes">✓</span> 95% véhicules</div>
+  <div class="compare-cell"><span class="check-no">✗</span> Modèles limités</div>
+</div>
+<div class="compare-row">
+  <div class="compare-cell feature-name-cell">Porte-gobelet intégré</div>
+  <div class="compare-cell highlight"><span class="check-yes">✓</span> Inclus</div>
+  <div class="compare-cell"><span class="check-no">✗</span> Absent ou en option</div>
+</div>
+<div class="compare-row">
+  <div class="compare-cell feature-name-cell">Garantie & SAV français</div>
+  <div class="compare-cell highlight"><span class="check-yes">✓</span> 2 ans + support 7j/7</div>
+  <div class="compare-cell"><span class="check-no">✗</span> Aucune garantie</div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- SPECS -->
+
+<section class="specs-section">
+  <div class="section-tag reveal">Spécifications</div>
+  <h2 class="section-title reveal">L'excellence dans<br>chaque <em>détail.</em></h2>
+
+  <div class="specs-layout">
+    <div class="specs-visual reveal">
+      <div style="position:relative">
+        <!-- Dimension lines -->
+        <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--sand);letter-spacing:0.1em;text-align:center;margin-bottom:8px;opacity:0.8">42 cm</div>
+        <div style="width:280px;height:1px;background:rgba(201,169,110,0.3);margin:0 auto 8px"></div>
+
+```
+    <div class="product-render">
+      <div class="render-hook render-hook-l"></div>
+      <div class="render-hook render-hook-r"></div>
+      <div class="render-surface"></div>
+      <div class="render-cup"></div>
+      <!-- Laptop outline -->
+      <div style="position:absolute;top:14px;left:16px;width:120px;height:80px;border:1px solid rgba(255,255,255,0.06);border-radius:4px;background:rgba(255,255,255,0.02)"></div>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+      <div style="width:1px;height:30px;background:rgba(201,169,110,0.3);margin:0 auto"></div>
+      <div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--sand);letter-spacing:0.1em;opacity:0.8">28 cm</div>
+      <div style="width:1px;height:30px;background:rgba(201,169,110,0.3);margin:0 auto"></div>
+    </div>
+
+    <!-- Glow -->
+    <div style="position:absolute;bottom:-40px;left:50%;transform:translateX(-50%);width:200px;height:80px;background:radial-gradient(ellipse,rgba(201,169,110,0.08),transparent);pointer-events:none"></div>
+  </div>
+</div>
+
+<div class="specs-grid reveal reveal-delay-2">
+  <div class="spec-item">
+    <div class="spec-label">Matériau</div>
+    <div class="spec-value">ABS Premium</div>
+    <div class="spec-unit">Ultra résistant aux chocs</div>
+  </div>
+  <div class="spec-item">
+    <div class="spec-label">Dimensions</div>
+    <div class="spec-value">42 × 28</div>
+    <div class="spec-unit">× 2,6 cm</div>
+  </div>
+  <div class="spec-item">
+    <div class="spec-label">Poids</div>
+    <div class="spec-value">1,05 kg</div>
+    <div class="spec-unit">Ultra portable</div>
+  </div>
+  <div class="spec-item">
+    <div class="spec-label">Charge max.</div>
+    <div class="spec-value">5 kg</div>
+    <div class="spec-unit">Testé & certifié</div>
+  </div>
+  <div class="spec-item">
+    <div class="spec-label">Compatibilité</div>
+    <div class="spec-value">34–44 cm</div>
+    <div class="spec-unit">Diamètre volant</div>
+  </div>
+  <div class="spec-item">
+    <div class="spec-label">Entretien</div>
+    <div class="spec-value">Lavable</div>
+    <div class="spec-unit">Eau savonneuse</div>
+  </div>
+  <div class="spec-item">
+    <div class="spec-label">Garantie</div>
+    <div class="spec-value">2 ans</div>
+    <div class="spec-unit">SAV français</div>
+  </div>
+  <div class="spec-item">
+    <div class="spec-label">Contenu</div>
+    <div class="spec-value">1× DT™</div>
+    <div class="spec-unit">+ Notice premium</div>
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- FAQ -->
+
+<section class="faq-section" id="faq">
+  <div class="section-tag reveal">Questions fréquentes</div>
+  <h2 class="section-title reveal">Tout ce que vous<br>devez <em>savoir.</em></h2>
+
+  <div class="faq-layout">
+    <div class="faq-sidebar reveal">
+      <div class="faq-cta-box">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--white);margin-bottom:12px;line-height:1.2">Toujours une question ?</div>
+        <p style="font-size:13px;color:var(--white-muted);line-height:1.7;margin-bottom:24px">Notre équipe française est disponible 7j/7 pour vous accompagner.</p>
+        <button class="btn-primary" style="width:100%;margin-bottom:12px">💬 Chat en direct</button>
+        <button class="btn-secondary" style="width:100%">✉ Nous écrire</button>
+        <div style="margin-top:20px;padding-top:20px;border-top:1px solid var(--black-border)">
+          <div style="font-size:11px;color:var(--white-muted);font-family:'DM Mono',monospace;letter-spacing:0.08em;margin-bottom:8px">RÉPONSE SOUS</div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:var(--sand)">2h</div>
+        </div>
+      </div>
+    </div>
+
+```
+<div class="faq-list reveal reveal-delay-1">
+  <div class="faq-item open">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      DriveTable™ est-il compatible avec ma voiture ?
+      <span class="faq-icon">−</span>
+    </button>
+    <div class="faq-answer">DriveTable™ est compatible avec tous les véhicules dont le volant a un diamètre compris entre 34 et 44 cm, ce qui représente plus de 95% des voitures sur le marché. Cela inclut Tesla Model 3, Model Y, Renault Zoé, BMW Série 3, Peugeot 308, Volkswagen Golf et bien d'autres. En cas de doute, notre équipe peut vérifier la compatibilité avec votre modèle exact.</div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      Comment fonctionne l'installation ?
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-answer">L'installation est ultra simple : glissez les crochets de DriveTable™ sur le haut de votre volant, ajustez la position, c'est prêt. Aucun outil nécessaire. Le retrait est tout aussi rapide. Une notice illustrée est incluse dans votre colis.</div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      DriveTable™ peut-il gêner la conduite ?
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-answer">DriveTable™ est exclusivement conçu pour être utilisé moteur éteint ou à l'arrêt (pause déjeuner, recharge, stationnement). Il ne doit jamais être utilisé en conduisant. Retirez-le en moins de 2 secondes avant de démarrer.</div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      Quels sont les délais et frais de livraison ?
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-answer">La livraison est offerte pour toutes les commandes en France métropolitaine. Les colis sont expédiés sous 24-48h ouvrées. Vous recevrez votre DriveTable™ en 3 à 5 jours ouvrés. Un numéro de suivi vous sera envoyé par email dès l'expédition.</div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      Quelle est votre politique de retour ?
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-answer">Vous disposez de 30 jours pour retourner votre DriveTable™ si vous n'êtes pas satisfait, sans justification. Les retours sont gratuits. Le remboursement est effectué sous 5 jours ouvrés après réception du colis retourné.</div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      Quelle charge maximale peut supporter DriveTable™ ?
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-answer">DriveTable™ a été testé et certifié pour supporter jusqu'à 5 kg de charge. Cela vous permet de poser confortablement un MacBook Air, un repas complet, des documents ou tout autre équipement de travail sans risque.</div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      Comment nettoyer DriveTable™ ?
+      <span class="faq-icon">+</span>
+    </button>
+    <div class="faq-answer">La surface de DriveTable™ est non-poreuse et résistante aux taches. Un simple essuyage à l'eau savonneuse avec un chiffon doux suffit. Séchez avec un chiffon propre. Évitez les produits abrasifs ou les solvants chimiques.</div>
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- UPSELL -->
+
+<section class="upsell-section">
+  <div class="section-tag reveal">Compléter votre expérience</div>
+  <h2 class="section-title reveal">Souvent achetés<br><em>ensemble.</em></h2>
+  <p class="section-desc reveal reveal-delay-1">Des accessoires pensés pour maximiser votre confort à bord. Disponibles en bundle avec réduction exclusive.</p>
+
+  <div class="upsell-grid">
+    <div class="upsell-card reveal">
+      <div class="upsell-img">🗂️</div>
+      <div class="upsell-info">
+        <div class="upsell-name">Organiseur de voiture™</div>
+        <div class="upsell-desc">Compartiments multiples pour organiser téléphone, cartes, câbles et documents.</div>
+        <div class="upsell-price">
+          <span class="upsell-price-num">24,90€</span>
+          <button class="upsell-add">+</button>
+        </div>
+      </div>
+    </div>
+
+```
+<div class="upsell-card reveal reveal-delay-1">
+  <div class="upsell-img">📱</div>
+  <div class="upsell-info">
+    <div class="upsell-name">Support téléphone MagSafe™</div>
+    <div class="upsell-desc">Support magnétique compatible MagSafe & Qi. Fixation ventilation ou tableau de bord.</div>
+    <div class="upsell-price">
+      <span class="upsell-price-num">19,90€</span>
+      <button class="upsell-add">+</button>
+    </div>
+  </div>
+</div>
+
+<div class="upsell-card reveal reveal-delay-2">
+  <div class="upsell-img">🔌</div>
+  <div class="upsell-info">
+    <div class="upsell-name">Kit câbles organisés™</div>
+    <div class="upsell-desc">Gestion premium des câbles USB-C, Lightning et Magsafe pour un intérieur impeccable.</div>
+    <div class="upsell-price">
+      <span class="upsell-price-num">14,90€</span>
+      <button class="upsell-add">+</button>
+    </div>
+  </div>
+</div>
+
+<div class="upsell-card reveal reveal-delay-3">
+  <div class="upsell-img">⚡</div>
+  <div class="upsell-info">
+    <div class="upsell-name">Pack Tesla Edition™</div>
+    <div class="upsell-desc">Bundle exclusif pensé pour les conducteurs Tesla : table + organiseur + câble.</div>
+    <div class="upsell-price">
+      <span class="upsell-price-num" style="color:var(--sand)">69,90€</span>
+      <button class="upsell-add">+</button>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+
+<div class="trust-bar">
+  <div class="trust-bar-item reveal">
+    <div class="trust-bar-icon">🚚</div>
+    <div class="trust-bar-text">
+      <h4>Livraison offerte</h4>
+      <p>3 à 5 jours ouvrés en France</p>
+    </div>
+  </div>
+  <div class="trust-bar-item reveal reveal-delay-1">
+    <div class="trust-bar-icon">🔄</div>
+    <div class="trust-bar-text">
+      <h4>Satisfait ou remboursé</h4>
+      <p>30 jours pour changer d'avis</p>
+    </div>
+  </div>
+  <div class="trust-bar-item reveal reveal-delay-2">
+    <div class="trust-bar-icon">🔒</div>
+    <div class="trust-bar-text">
+      <h4>Paiement sécurisé</h4>
+      <p>CB, PayPal, Apple Pay, Klarna</p>
+    </div>
+  </div>
+  <div class="trust-bar-item reveal reveal-delay-3">
+    <div class="trust-bar-icon">🇫🇷</div>
+    <div class="trust-bar-text">
+      <h4>Support français 7j/7</h4>
+      <p>Réponse garantie sous 2h</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a href="#" class="logo" style="font-size:20px;margin-bottom:12px;display:inline-flex">
+        DRIVE<em style="font-style:normal;color:var(--sand)">TABLE</em><sup>™</sup>
+      </a>
+      <p class="footer-tagline">Le confort. Partout. Tout le temps. L'accessoire automobile premium qui change votre quotidien.</p>
+      <div class="social-links">
+        <a href="#" class="social-link">TK</a>
+        <a href="#" class="social-link">IG</a>
+        <a href="#" class="social-link">FB</a>
+        <a href="#" class="social-link">YT</a>
+      </div>
+    </div>
+
+```
+<div class="footer-col">
+  <h5>Boutique</h5>
+  <div class="footer-links">
+    <a href="#">Tous nos produits</a>
+    <a href="#">Accessoires voiture</a>
+    <a href="#">Nouveautés</a>
+    <a href="#">Promotions</a>
+    <a href="#">Tesla Edition</a>
+  </div>
+</div>
+
+<div class="footer-col">
+  <h5>Informations</h5>
+  <div class="footer-links">
+    <a href="#">FAQ</a>
+    <a href="#">Livraison & retours</a>
+    <a href="#">Conditions générales</a>
+    <a href="#">Politique de confidentialité</a>
+    <a href="#">Mentions légales</a>
+  </div>
+</div>
+
+<div class="footer-col">
+  <h5>Entreprise</h5>
+  <div class="footer-links">
+    <a href="#">À propos de nous</a>
+    <a href="#">Contact</a>
+    <a href="#">Suivi de commande</a>
+    <a href="#">Programme affilié</a>
+    <a href="#">Devenir partenaire</a>
+  </div>
+</div>
+
+<div class="footer-col">
+  <h5>Newsletter</h5>
+  <p style="font-size:13px;color:var(--white-muted);margin-bottom:16px;line-height:1.6">Recevez nos nouveautés et offres exclusives en avant-première.</p>
+  <div class="newsletter-form">
+    <input type="email" class="newsletter-input" placeholder="votre@email.fr">
+    <button class="newsletter-btn">→</button>
+  </div>
+  <div class="newsletter-sub">✓ Pas de spam · Désabonnement en 1 clic</div>
+</div>
+```
+
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2024 DriveTable™ — Tous droits réservés.</div>
+    <div class="footer-legal">
+      <a href="#">Confidentialité</a>
+      <a href="#">CGV</a>
+      <a href="#">Cookies</a>
+      <a href="#">Plan du site</a>
+    </div>
+  </div>
+</footer>
+
+<!-- STICKY ATC -->
+
+<div class="sticky-atc">
+  <div class="sticky-atc-info">
+    <div>
+      <div style="font-size:12px;color:var(--white-muted);font-family:'DM Mono',monospace;letter-spacing:0.08em">DRIVETABLE™ PRO · NOIR</div>
+      <div class="sticky-atc-price">39,90€ <span style="font-size:14px;color:var(--white-muted);text-decoration:line-through;font-family:'DM Sans',sans-serif;font-weight:300">59,90€</span></div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <div class="stars" style="font-size:12px">★★★★★</div>
+      <span style="font-size:11px;color:var(--white-muted);font-family:'DM Mono',monospace">4,8</span>
+    </div>
+  </div>
+  <button class="btn-primary" style="padding:16px">
+    🛒 Ajouter au panier · 39,90€
+  </button>
+</div>
+
+<script>
+  // ─── SCROLL REVEAL ───
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // ─── FAQ TOGGLE ───
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const icon = btn.querySelector('.faq-icon');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.faq-icon').textContent = '+';
+    });
+    if (!isOpen) {
+      item.classList.add('open');
+      icon.textContent = '−';
+    }
+  }
+
+  // ─── COLOR SELECTOR ───
+  document.querySelectorAll('.color-opt').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.color-opt').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
+  // ─── HEADER SCROLL EFFECT ───
+  window.addEventListener('scroll', () => {
+    const header = document.querySelector('header');
+    if (window.scrollY > 60) {
+      header.style.background = 'rgba(8,8,8,0.98)';
+    } else {
+      header.style.background = 'rgba(8,8,8,0.85)';
+    }
+  });
+
+  // ─── UPSELL ADD BUTTON ───
+  document.querySelectorAll('.upsell-add').forEach(btn => {
+    btn.addEventListener('click', function() {
+      this.textContent = '✓';
+      this.style.background = 'var(--sand)';
+      this.style.color = '#000';
+      setTimeout(() => {
+        this.textContent = '+';
+        this.style.background = 'var(--sand-dim)';
+        this.style.color = 'var(--sand)';
+      }, 1500);
+    });
+  });
+
+  // ─── PARALLAX SUBTLE ───
+  window.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    const heroBg = document.querySelector('.hero-bg');
+    if (heroBg) {
+      heroBg.style.transform = `translateY(${scrolled * 0.3}px)`;
+    }
+  });
+</script>
+
+</body>
+</html>
