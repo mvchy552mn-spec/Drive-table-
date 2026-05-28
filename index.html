@@ -1258,6 +1258,66 @@ footer {
 
 /* Selection */
 ::selection { background:rgba(201,168,76,.3); color:var(--cream); }
+.prep-section{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  min-height:90vh;
+  background:#0d0b09;
+}
+
+.prep-video{
+  position:relative;
+  overflow:hidden;
+}
+
+.prep-video video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.prep-content{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:6vw;
+}
+
+.prep-tag{
+  color:var(--gold);
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  font-size:.7rem;
+  margin-bottom:1rem;
+}
+
+.prep-content h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2rem,5vw,4rem);
+  font-weight:300;
+  line-height:1.1;
+  margin-bottom:1.5rem;
+}
+
+.prep-content p{
+  color:var(--text);
+  line-height:1.9;
+  max-width:500px;
+}
+
+.prep-features{
+  display:flex;
+  flex-wrap:wrap;
+  gap:1rem;
+  margin-top:2rem;
+}
+
+.prep-features span{
+  border:1px solid rgba(201,168,76,.3);
+  padding:.7rem 1rem;
+  font-size:.7rem;
+  letter-spacing:.15em;
+}
 </style>
 </head>
 <body>
@@ -1680,7 +1740,35 @@ footer {
     </div>
   </div>
 </section>
+<section id="hero">
 
+  <div class="hero-video-wrap">
+
+    <video
+      id="heroVid"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+    >
+      <source 
+        src="https://www.image2url.com/r2/default/videos/1779975641077-99797419-1655-455a-8aa6-4382fb1b8d06.mp4"
+        type="video/mp4"
+      >
+    </video>
+
+    <div class="hero-fallback"></div>
+
+  </div>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    ...
+  </div>
+
+</section>
 <!-- ===================== GALERIE ===================== -->
 <section id="galerie" class="section-pad">
   <div class="gal-header rv">
