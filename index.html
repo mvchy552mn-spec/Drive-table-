@@ -2843,7 +2843,7 @@ Crolles, Le Pont-de-Claix et dans toute l'Isère.
       </div>
 
       <div class="devis-contacts reveal delay-2">
-        <a href="mailto:Morgancoulet5@icloud.com" class="dc-item">
+        action="https://formsubmit.co/Morgancoulet5@icloud.com" class="dc-item">
           <span class="dc-icon">✉️</span>
           <div>
             <div class="dc-label">Email</div>
@@ -2879,57 +2879,111 @@ Crolles, Le Pont-de-Claix et dans toute l'Isère.
       </a>
     </div>
 
-    <div class="devis-form reveal delay-2">
-      <div class="f-row">
-        <div class="f-group">
-          <label class="f-label">Prénom</label>
-          <input type="text" class="f-input" placeholder="Marie" autocomplete="given-name">
-        </div>
-        <div class="f-group">
-          <label class="f-label">Nom</label>
-          <input type="text" class="f-input" placeholder="Dupont" autocomplete="family-name">
-        </div>
-      </div>
-      <div class="f-group">
-        <label class="f-label">Email</label>
-        <input type="email" class="f-input" placeholder="marie@exemple.fr" autocomplete="email">
-      </div>
-      <div class="f-group">
-        <label class="f-label">Téléphone</label>
-        <input type="tel" class="f-input" placeholder="06 XX XX XX XX" autocomplete="tel">
-      </div>
-      <div class="f-group">
-        <label class="f-label">Type d'événement</label>
-        <select class="f-select">
-          <option value="" disabled selected>Choisir votre événement…</option>
-          <option>Mariage</option>
-          <option>Anniversaire</option>
-          <option>Baby Shower</option>
-          <option>Gender Reveal</option>
-          <option>Événement Entreprise</option>
-          <option>Réception Privée</option>
-          <option>Cousinage / Fête de Famille</option>
-          <option>Autre</option>
-        </select>
-      </div>
-      <div class="f-row">
-        <div class="f-group">
-          <label class="f-label">Date prévue</label>
-          <input type="date" class="f-input">
-        </div>
-        <div class="f-group">
-          <label class="f-label">Nombre d'invités</label>
-          <input type="number" class="f-input" placeholder="50" min="1">
-        </div>
-      </div>
-      <div class="f-group">
-        <label class="f-label">Votre message</label>
-        <textarea class="f-textarea" placeholder="Décrivez votre événement, vos envies, votre thème, vos contraintes…"></textarea>
-      </div>
-      <button class="f-submit" id="fSubmit">✦ Envoyer ma Demande</button>
-      <div class="f-success" id="fSuccess">✓ Merci ! Nous vous répondons sous 24 heures.</div>
-    </div>
+    <form
+  action="https://formsubmit.co/Morgancoulet5@icloud.com"
+  method="POST"
+  class="devis-form reveal delay-2"
+>
+
+<input type="hidden" name="_subject" value="Nouveau devis MY EVENT 38">
+<input type="hidden" name="_captcha" value="false">
+
+<div class="f-row">
+  <div class="f-group">
+    <label class="f-label">Prénom</label>
+    <input
+      type="text"
+      name="prenom"
+      class="f-input"
+      placeholder="Marie"
+      autocomplete="given-name"
+      required>
   </div>
+
+  <div class="f-group">
+    <label class="f-label">Nom</label>
+    <input
+      type="text"
+      name="nom"
+      class="f-input"
+      placeholder="Dupont"
+      autocomplete="family-name"
+      required>
+  </div>
+</div>
+
+<div class="f-group">
+  <label class="f-label">Email</label>
+  <input
+    type="email"
+    name="email"
+    class="f-input"
+    placeholder="marie@exemple.fr"
+    autocomplete="email"
+    required>
+</div>
+
+<div class="f-group">
+  <label class="f-label">Téléphone</label>
+  <input
+    type="tel"
+    name="telephone"
+    class="f-input"
+    placeholder="06 XX XX XX XX"
+    autocomplete="tel">
+</div>
+
+<div class="f-group">
+  <label class="f-label">Type d'événement</label>
+  <select name="evenement" class="f-select">
+    <option value="" disabled selected>
+      Choisir votre événement…
+    </option>
+    <option>Mariage</option>
+    <option>Anniversaire</option>
+    <option>Baby Shower</option>
+    <option>Gender Reveal</option>
+    <option>Événement Entreprise</option>
+    <option>Réception Privée</option>
+    <option>Cousinage / Fête de Famille</option>
+    <option>Autre</option>
+  </select>
+</div>
+
+<div class="f-row">
+  <div class="f-group">
+    <label class="f-label">Date prévue</label>
+    <input
+      type="date"
+      name="date_evenement"
+      class="f-input">
+  </div>
+
+  <div class="f-group">
+    <label class="f-label">Nombre d'invités</label>
+    <input
+      type="number"
+      name="invites"
+      class="f-input"
+      placeholder="50"
+      min="1">
+  </div>
+</div>
+
+<div class="f-group">
+  <label class="f-label">Votre message</label>
+  <textarea
+    name="message"
+    class="f-textarea"
+    placeholder="Décrivez votre événement, vos envies, votre thème, vos contraintes…"
+    required></textarea>
+</div>
+
+<button type="submit" class="f-submit">
+  ✦ Envoyer ma Demande
+</button>
+
+</form>
 </section>
 
 <!-- ===================================================
