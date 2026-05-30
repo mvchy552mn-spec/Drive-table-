@@ -3054,22 +3054,42 @@ Crolles, Le Pont-de-Claix et dans toute l'Isère.
   const introContent = document.getElementById('introContent');
   const introSkip = document.getElementById('introSkip');
 
-  // Show intro content when video can play
-  introVid.addEventListener('canplay', () => {
-    introVid.classList.add('visible');
-    setTimeout(() => introContent.classList.add('show'), 400);
-  }, { once: true });
+/* ── INTRO ── */
+const introOverlay = document.getElementById('intro-overlay');
+const introVid = document.getElementById('intro-video');
+const introContent = document.getElementById('introContent');
+const introSkip = document.getElementById('introSkip');
 
-  // Fallback if video doesn't load quickly
-  setTimeout(() => introContent.classList.add('show'), 600);
+introVid.muted = true;
 
-  function dismissIntro() {
-    introOverlay.classList.add('gone');
-    document.body.style.overflow = '';
-  }
+window.addEventListener('load', () => {
 
-  introSkip.addEventListener('click', dismissIntro);
-  setTimeout(dismissIntro, 5500);
+  introVid.play()
+    .then(() => {
+      introVid.classList.add('visible');
+    })
+    .catch(err => {
+      console.log('Autoplay bloqué :', err);
+      introVid.classList.add('visible');
+    });
+
+  setTimeout(() => {
+    introContent.classList.add('show');
+  }, 500);
+
+});
+
+function dismissIntro() {
+  introOverlay.classList.add('gone');
+}
+
+introSkip.addEventListener('click', dismissIntro);
+
+introVid.addEventListener('ended', dismissIntro);
+
+setTimeout(() => {
+  dismissIntro();
+}, 5500);
 
   /* ── CURSOR ── */
   const isTouch = window.matchMedia('(pointer:coarse)').matches;
